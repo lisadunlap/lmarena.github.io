@@ -39,28 +39,28 @@ Building upon our previous style control approach, we've now included additional
 2. **Sentiment Scores**: Categorized into Very Negative, Negative, Neutral, Positive, and Very Positive sentiments with Gemini-2.0-flash-001 using the following system prompt:
 
 ```
-  You are a specialized tone classifier analyzing chatbot responses. You will be given a full chat log containing both user prompts and chatbot responses.  
+  You are a specialized tone classifier analyzing chatbot responses. You will be given a full chat log containing both user prompts and chatbot responses.
   Your sole task is to classify the tone of the chatbot's responses, completely ignoring the user's messages and the inherent positivity or negativity of the conversation content itself. Instead, focus exclusively on the chatbot's style, language choice, and emotional expression.
-  
+
   Output your classification of tone strictly in the following JSON format:
-  
+
   {
     "tone": "very positive" | "positive" | "neutral" | "negative" | "very negative"
   }
-  
+
   Tone Categories:
   - "very positive": Extremely enthusiastic, excited, highly encouraging, very cheerful.
   - "positive": Friendly, supportive, pleasant, slightly cheerful.
   - "neutral": Calm, factual, straightforward, objective, minimal emotion.
   - "negative": Slightly dismissive, mildly critical, frustrated, mildly negative.
   - "very negative": Strongly dismissive, clearly critical, angry, sarcastic, significantly negative.
-  
+
   Important Guidelines:
   - Classify only the chatbot's responses.
   - Select exactly one tone category per conversation.
   - Ensure your output adheres precisely to the JSON schema provided.
   - Output the tone category in english
-  
+
   Example output:
   {
     "tone": "very positive"
@@ -85,16 +85,16 @@ Controlling for style, sentiment, and emoji usage yields notable shifts in ranki
 
 To illustrate the individual impact of each feature, we include the regression coefficients below:
 
-| Feature         |  Coefficient  |
-| -------------   | :-----------: |
-| Answer Length   | 0.2381 |
-| Markdown Header |   0.0290|
+| Feature         | Coefficient |
+| --------------- | :---------: |
+| Answer Length   |   0.2381    |
+| Markdown Header |   0.0290    |
 | Markdown List   |   0.0201    |
 | Markdown Bold   |   0.0135    |
-| Emoji Count     |   -0.0039    |
+| Emoji Count     |   -0.0039   |
 | Very Negative   |   -0.0034   |
-| Negative        |   -0.0428    |
-| Neutral         |   -0.0258    |
+| Negative        |   -0.0428   |
+| Neutral         |   -0.0258   |
 | Positive        |   0.0146    |
 | Very Positive   |   0.0285    |
 
@@ -102,21 +102,19 @@ To illustrate the individual impact of each feature, we include the regression c
 
 To disentangle sentiment effects from other style cues, we ran an ablation study removing formatting features and retaining only emoji count and sentiment.
 
-
-| Feature         |  Coefficient  |
-| -------------   | :-----------: |
-| Emoji Count     |   -0.0048    |
-| Very Negative   |  0.0008   |
-| Negative        |  -0.0516    |
-| Neutral         |  -0.0463    |
-| Positive        |  0.0262    |
-| Very Positive   |   0.0419    |
+| Feature       | Coefficient |
+| ------------- | :---------: |
+| Emoji Count   |   -0.0048   |
+| Very Negative |   0.0008    |
+| Negative      |   -0.0516   |
+| Neutral       |   -0.0463   |
+| Positive      |   0.0262    |
+| Very Positive |   0.0419    |
 
 Key observations:
 
-- **Positive sentiment maintains a strong positive effect**, even without formatting.  
+- **Positive sentiment maintains a strong positive effect**, even without formatting.
 - **Neutral and Negative tones are penalized**, highlighting a general preference for emotional expressiveness.
-
 
 <img src="/assets/img/blog/sentiment-control/overall_sentiment.png" style="display:block; margin-top: auto; margin-left: auto; margin-right: auto; margin-bottom: auto; width: 80%"/>
 
@@ -127,13 +125,13 @@ Key observations:
 
 To better understand how sentiment impacts head-to-head outcomes, we computed win rates conditioned on sentiment labels. Each entry below represents the probability that a model with a given tone (row) beats a model with another tone (column):
 
-|                  | Very Negative |  Negative  |  Neutral   |  Positive  | Very Positive |
-|:----------------:|:-------------:|:----------:|:----------:|:----------:|:-------------:|
-| **Very Negative**|    —-------   |  0.647845  |  0.539964  |  0.402597  |   0.430464    |
-| **Negative**    |   0.352155    |  —-------  |  0.360911  |  0.293156  |   0.217092    |
-| **Neutral**    |   0.460036    |  0.639089  |  —-------  |  0.414407  |   0.362715    |
-| **Positive**  |   0.597403    |  0.706844  |  0.585593  |  —-------  |   0.449768    |
-| **Very Positive**|   0.569536    |  0.782908  |  0.637285  |  0.550232  |   —-------    |
+|                   | Very Negative | Negative | Neutral  | Positive | Very Positive |
+| :---------------: | :-----------: | :------: | :------: | :------: | :-----------: |
+| **Very Negative** |   —-------    | 0.647845 | 0.539964 | 0.402597 |   0.430464    |
+|   **Negative**    |   0.352155    | —------- | 0.360911 | 0.293156 |   0.217092    |
+|    **Neutral**    |   0.460036    | 0.639089 | —------- | 0.414407 |   0.362715    |
+|   **Positive**    |   0.597403    | 0.706844 | 0.585593 | —------- |   0.449768    |
+| **Very Positive** |   0.569536    | 0.782908 | 0.637285 | 0.550232 |   —-------    |
 
 Several insights emerge:
 
@@ -149,7 +147,7 @@ This suggests that sentiment affects not only absolute rankings but also pairwis
 
 While Sentiment Control is an important advancement, our analysis remains observational. Unobserved confounders may still exist, such as intrinsic correlations between sentiment positivity and answer quality. Future work includes exploring other emotional and psychological dimensions of style.
 
-We're eager for community contributions and further collaboration! 
+We're eager for community contributions and further collaboration!
 
 Please see the link to the colab notebook below. We will be adding sentiment control soon to all categories of the leaderboard. We look forward to seeing how the community leverages these new insights. Stay tuned for more updates!
 

@@ -1,7 +1,7 @@
 ---
 layout: distill
 title: "Introducing the Search Arena: Evaluating Search-Enabled AI"
-description: 
+description:
 giscus_comments: true
 date: 2025-04-14
 featured: true
@@ -53,6 +53,7 @@ Since our [initial launch](https://x.com/lmarena_ai/status/1902036561119899983) 
 <h3>A. Data</h3>
 
 <b>Data Filtering and Citation Style Control.</b> Each model provider uses a unique inline citation style, which can potentially compromise model anonymity. However, citation formatting impacts how information is presented to and processed by the user, impacting their final votes. To balance these considerations, we introduced <em>"style randomization"</em>: responses are displayed either in a standardized format or in the original format (i.e., the citation style agreed upon with each model provider).
+
 <details>
   <summary>Click to view standardized and original citation styles for each provider.</summary>
   <div style="margin-top: 1rem;">
@@ -90,7 +91,6 @@ This approach mitigates de-anonymization while allowing us to analyze how citati
 </div>
 <p style="color:gray; text-align: center;">Figure 2. Top-5 topic distributions across Search Arena, LM Arena, and SimpleQA. We use 
   <a href="https://blog.lmarena.ai/blog/2025/arena-explorer/">Arena Explorer (Tang et al., 2025)</a> to extract topic clusters from the three datasets.</p>
-
 
 <table id="tab1" style="margin: 0 auto; border-collapse: collapse; text-align: center;">
   <thead>
@@ -231,7 +231,6 @@ We begin by analyzing pairwise win rates—i.e., the proportion of wins of model
 - <code>ppl-sonar-reasoning</code> outperforms the rest of Perplexity's models. There's no clear difference between <code>ppl-sonar-pro</code> and <code>ppl-sonar-pro-high</code> (52%/48% win rate), and even <code>ppl-sonar</code> beats <code>ppl-sonar-pro-high</code> (60% win rate). This suggests that increasing search context does not necessarily improve performance and may even degrade it.
 - Within OpenAI’s models, larger search context does not significantly improve performance (`api-gpt-4o-search` vs `api-gpt-4o-search-high`). While adding user location improves performance in head-to-head battles (58% win rate of `api-gpt-4o-search-high-loc` over `api-gpt-4o-search-high`), location-enabled version ranks lower in the leaderboard.
 
-
 <div id="fig4">
   <iframe src="{{ '/assets/img/blog/search_arena/04142025/main_pairwise_average_win_rate.html' }}" frameborder='0' scrolling='no' height="500px" width="100%"></iframe>
 </div>
@@ -270,7 +269,6 @@ Now we build the leaderboard! Consistent with [LM Arena](https://lmarena.ai/), w
   Table 3. Search Arena leaderboard.
 </p>
 
-
 <h3 id="citation_analyses">Citation Style Analysis</h3>
 
 Having calculated the main leaderboard, we can now analyze the effect of citation style on user votes and model rankings. For each battle, we record model A’s and B’s citation style — original (agreed upon with the providers) vs standardized.
@@ -287,10 +285,9 @@ We further investigate the effect of citation style on model performance, by tre
 
 <h2 id="analyses">3. Three Secrets Behind a WIN</h2>
 
-After reviewing the leaderboard—and showing that the citation style doesn’t impact results all that much—you might be wondering: *What features contribute to the model’s win rate?*
+After reviewing the leaderboard—and showing that the citation style doesn’t impact results all that much—you might be wondering: _What features contribute to the model’s win rate?_
 
-To answer this, we used the framework in [(Zhong et al., 2022)](https://arxiv.org/abs/2201.12323), a method that automatically proposes and tests hypotheses to identify key differences between two groups of natural language texts—in this case, human-preferred and rejected model outputs. In our implementation, we asked the model to generate 25 hypotheses and evaluate them, leading to the discovery of *three distinguishing factors* with statistically significant p-values, shown in [Tab. 4](#tab4).
-
+To answer this, we used the framework in [(Zhong et al., 2022)](https://arxiv.org/abs/2201.12323), a method that automatically proposes and tests hypotheses to identify key differences between two groups of natural language texts—in this case, human-preferred and rejected model outputs. In our implementation, we asked the model to generate 25 hypotheses and evaluate them, leading to the discovery of _three distinguishing factors_ with statistically significant p-values, shown in [Tab. 4](#tab4).
 
 <table id="tab4" style="width: 100%; border-collapse: collapse; text-align: left;">
   <thead>
@@ -319,10 +316,9 @@ To answer this, we used the framework in [(Zhong et al., 2022)](https://arxiv.o
   Table 4. Candidate key factors between the winning and losing model outputs.
 </p>
 
-
 ### Model Characteristics
 
-Guided by the above findings, we analyze how these features vary across models and model families. 
+Guided by the above findings, we analyze how these features vary across models and model families.
 
 [Fig. 6 (left)](#fig6) shows the distribution of average response length across models. Gemini models are generally the most verbose—<code>gemini-2.5-pro-grounding</code>, in particular, produces responses nearly twice as long as most Perplexity or OpenAI models. Within the Perplexity and OpenAI families, response length is relatively consistent, with the exception of `ppl-sonar-reasoning-pro-high`. [Fig. 6 (right)](#fig6) shows the average number of citations per response. Sonar models cite the most, with <code>ppl-sonar-pro-high</code> citing 2-3x more than Gemini models. OpenAI models cite the fewest sources (2-2.5) with little variation within the group.
 
@@ -333,6 +329,7 @@ Guided by the above findings, we analyze how these features vary across models a
 <p style="color:gray; text-align: center;">Figure 6. Average response length (left) and number of citations (right) per model.</p>
 
 In addition to number of citations and response length, we also study the common <em>source domains</em> cited by each model. We categorize retrieved URLs into ten types: YouTube, News (U.S. and foreign), Community & Blogs (e.g., Reddit, Medium), Wikipedia, Tech & Coding (e.g., Stack Overflow, GitHub), Government & Education, Social Media, Maps, and Academic Journals. [Fig. 7](#fig7) shows the domain distribution across providers in two settings: (1) all conversations, and (2) a filtered subset focused on Trump-related prompts. The case study helps examine how models behave when responding to queries on current events. Here are three interesting findings:
+
 1. All models favor authoritative sources (e.g., Wikipedia, <code>.edu</code>, <code>.gov</code> domains).
 2. OpenAI models heavily cite news sources—51.3% overall and 87.3% for Trump-related prompts.
 3. Gemini prefers community/blog content, whereas Perplexity frequently cites YouTube. Perplexity also strongly favors U.S. news sources over foreign ones (3x more often).
@@ -341,14 +338,14 @@ In addition to number of citations and response length, we also study the common
   <iframe src="{{ '/assets/img/blog/search_arena/04142025/domain_citations.html' }}" frameborder='0' scrolling='no' height="400px" width="100%"></iframe>
 </div>
 
-<p style="color:gray; text-align: center;">Figure 7. Distribution of cited domain categories across models. Use the dropdown to switch between all prompts and a filtered Trump-related subset.</p> 
+<p style="color:gray; text-align: center;">Figure 7. Distribution of cited domain categories across models. Use the dropdown to switch between all prompts and a filtered Trump-related subset.</p>
 
 ### Control Experiments
 
 After analyzing model characteristics such as response length, citation count, and citation sources, we revisited the Bradley-Terry model with these features as additional control variables [(Li et al., 2024)](https://blog.lmarena.ai/blog/2024/style-control/). Below are some findings when controlling for different subsets of control features:
 
-- **Response length**: Controlling for response length yields a positive and statistically significant coefficient (0.255, *p* < 0.05), indicating that users prefer more verbose responses.
-- **Number of citations**: Controlling for citation count also results in a positive and significant coefficient (0.234, *p* < 0.05), suggesting a preference for responses with more cited sources.
+- **Response length**: Controlling for response length yields a positive and statistically significant coefficient (0.255, _p_ < 0.05), indicating that users prefer more verbose responses.
+- **Number of citations**: Controlling for citation count also results in a positive and significant coefficient (0.234, _p_ < 0.05), suggesting a preference for responses with more cited sources.
 - **Citation source categories**: As shown in [Fig. 8](#fig8), citations from **community platforms** (e.g., Reddit, Quora) and **YouTube** have statistically significant positive effects on user votes. The remaining categories have insignificant coefficients.
 - **Joint controls**: When controlling for all features, only **response length** and **citation count** remain statistically significant.
 
@@ -404,8 +401,7 @@ Finally, we used all previously described features to construct a controlled lea
 As search-augmented LLMs become increasingly popular, **Search Arena** provides a real-time, in-the-wild evaluation platform driven by crowdsourced human feedback. Unlike static QA benchmarks, our dataset emphasizes current events and diverse real-world queries, offering a more realistic view of how users interact with these systems.
 Using 7k human votes, we found that **Gemini-2.5-Pro-Grounding** and **Perplexity-Sonar-Reasoning-Pro-High** share the first rank in the leaderboard. User preferences are positively correlated with **response length**, **number of citations**, and **citation sources**. Citation formatting, surprisingly, had minimal impact.
 
-
-We have open-sourced our data ([🤗 search-arena-7k](https://huggingface.co/datasets/lmarena-ai/search-arena-v1-7k)) and analysis code ([⚙️ Colab notebook](https://colab.research.google.com/drive/1h7rR7rhePBPuIfaWsVNlW87kv3DLibPS?usp=sharing)). Try [🌐 Search Arena](https://lmarena.ai/?search) now and see what’s next: 
+We have open-sourced our data ([🤗 search-arena-7k](https://huggingface.co/datasets/lmarena-ai/search-arena-v1-7k)) and analysis code ([⚙️ Colab notebook](https://colab.research.google.com/drive/1h7rR7rhePBPuIfaWsVNlW87kv3DLibPS?usp=sharing)). Try [🌐 Search Arena](https://lmarena.ai/?search) now and see what’s next:
 
 - **Open participation**: We are inviting model submissions from researchers and industry, and encouraging public voting.
 - **Cross-task evaluation**: How well do search models handle general questions? Can LLMs manage search-intensive tasks?
